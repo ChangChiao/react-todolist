@@ -1,8 +1,7 @@
 import { useState } from "react";
-import { v1 as uuidv1 } from "uuid";
 import TodoItem from "../components/TodoItem";
 type TodoParam = {
-  id: string;
+  id: number;
   status: boolean;
   content: string;
 };
@@ -17,11 +16,11 @@ const Todo = () => {
     setTodo((prev) => {
       return [
         ...prev,
-        { content: formElements.todo.value, status: false, id: uuidv1() },
+        { content: formElements.todo.value, status: false, id: Date.now() },
       ];
     });
   };
-  const setStatus = (id: string, status: boolean) => {
+  const setStatus = (id: number, status: boolean) => {
     const updatedArr = todo.map((item) => {
       return item.id === id ? { ...item, status } : item;
     });
