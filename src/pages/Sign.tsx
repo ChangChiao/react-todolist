@@ -26,6 +26,12 @@ const Todo = () => {
     });
     setTodo(updatedArr);
   };
+  const deleteItem = (id: number) => {
+    const updatedArr = todo.filter((item) => {
+      return item.id !== id;
+    });
+    setTodo(updatedArr);
+  };
   return (
     <div>
       <form onSubmit={handleSubmit}>
@@ -34,7 +40,7 @@ const Todo = () => {
       </form>
       <div>
         {todo.map((item) => {
-          <TodoItem setStatus={setStatus} {...item} />;
+          <TodoItem deleteItem={deleteItem} setStatus={setStatus} {...item} />;
         })}
       </div>
     </div>
