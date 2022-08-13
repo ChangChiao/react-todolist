@@ -1,4 +1,5 @@
 import React from "react";
+import clsx from "clsx";
 import { RiDeleteBinLine } from "react-icons/ri";
 type TodoItemParam = {
   id: number;
@@ -25,7 +26,7 @@ const TodoItem = ({
         }}
       />
       <RiDeleteBinLine onClick={() => deleteItem(id)} />
-      {{ content }}
+      <span className={clsx({ "line-through": status })}>{{ content }}</span>
     </div>
   );
 };
