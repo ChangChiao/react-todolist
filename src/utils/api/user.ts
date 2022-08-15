@@ -15,10 +15,6 @@ interface SignUpParam {
   nickname: string;
 }
 
-interface APIResponse {
-  message: string;
-}
-
 interface SignInResponse extends APIResponse {
   email: string;
   nickname: string;
