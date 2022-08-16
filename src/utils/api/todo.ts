@@ -4,12 +4,6 @@ import { getAuthorizationHeader } from "./header";
 
 const TODO_PATH = `${BASE_URL}/todos`;
 
-interface Todo {
-  id?: string;
-  content: string;
-  completed_at?: string | null; //default null
-}
-
 interface TodosResponse {
   todos: Todo[];
 }

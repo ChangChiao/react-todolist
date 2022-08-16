@@ -1,17 +1,14 @@
 import React from "react";
 import clsx from "clsx";
 import { RiDeleteBinLine } from "react-icons/ri";
-type TodoItemParam = {
-  id: number;
-  status: boolean;
-  content: string;
-  setStatus: (id: number, status: boolean) => void;
-  deleteItem: (id: number) => void;
+type TodoItemParam = Todo & {
+  setStatus: (id: string, status: boolean) => void;
+  deleteItem: (id: string) => void;
 };
 
 const TodoItem = ({
   id,
-  status,
+  completed_at,
   content,
   setStatus,
   deleteItem,
@@ -20,13 +17,15 @@ const TodoItem = ({
     <div>
       <input
         type="checkbox"
-        checked={!!status}
+        checked={!!completed_at}
         onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
           setStatus(id, e.target.checked);
         }}
       />
       <RiDeleteBinLine onClick={() => deleteItem(id)} />
-      <span className={clsx({ "line-through": status })}>{{ content }}</span>
+      <span className={clsx({ "line-through": completed_at })}>
+        {{ content }}
+      </span>
     </div>
   );
 };
