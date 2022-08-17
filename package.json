@@ -9,12 +9,14 @@
     "deploy": "gh-pages -d dist"
   },
   "dependencies": {
+    "@types/react-router-dom": "^5.3.3",
     "axios": "^0.27.2",
     "clsx": "^1.2.1",
     "gh-pages": "^4.0.0",
     "react": "^17.0.2",
-    "react-dom": "^17.0.2",
+    "react-dom": "^18.2.0",
     "react-icons": "^4.4.0",
+    "react-router-dom": "^6.3.0",
     "react-toastify": "^9.0.8",
     "vitawind": "^2.0.0"
   },
