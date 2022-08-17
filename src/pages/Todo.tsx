@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import clsx from "clsx";
 import TodoItem from "../components/TodoItem";
-import { getTodos } from "../utils/api/todo";
+import { getTodos, addTodo, toggleTodo, deleteTodo } from "../utils/api/todo";
 
 const Todo = () => {
   const [todo, setTodo] = useState<Todo[]>([]);
@@ -11,12 +11,24 @@ const Todo = () => {
     { title: "待完成", status: 1 },
     { title: "已完成", status: 2 },
   ];
+
+  const getList = async () => {
+    const res = await getTodos();
+    setTodo(res.todos);
+  };
+
   const handleSubmit = async (event: React.SyntheticEvent<HTMLFormElement>) => {
     event.preventDefault();
     const form = event.currentTarget;
     const formElements = form.elements as typeof form.elements & {
       todo: { value: string };
     };
+    await addTodo({
+      todo: {
+        content: formElements.todo.value,
+      },
+    });
+    getList();
     // setTodo((prev) => {
     //   return [
     //     ...prev,
@@ -24,17 +36,22 @@ const Todo = () => {
     //   ];
     // });
   };
-  const setStatus = (id: string, status: boolean) => {
-    const updatedArr = todo.map((item) => {
-      return item.id === id ? { ...item, status } : item;
-    });
-    setTodo(updatedArr);
+  const setStatus = async (id: string, status: boolean) => {
+    // const updatedArr = todo.map((item) => {
+    //   return item.id === id ? { ...item, status } : item;
+    // });
+    // setTodo(updatedArr);
+    console.log("status"), status;
+    await toggleTodo(id);
+    getList();
   };
-  const deleteItem = (id: string) => {
-    const updatedArr = todo.filter((item) => {
-      return item.id !== id;
-    });
-    setTodo(updatedArr);
+  const deleteItem = async (id: string) => {
+    // const updatedArr = todo.filter((item) => {
+    //   return item.id !== id;
+    // });
+    // setTodo(updatedArr);
+    await deleteTodo(id);
+    getList();
   };
 
   const clearFinished = () => {
@@ -55,10 +72,7 @@ const Todo = () => {
   }, [todo]);
 
   useEffect(() => {
-    (async () => {
-      const res = await getTodos();
-      setTodo(res.todos);
-    })();
+    getList();
   }, []);
   return (
     <div>

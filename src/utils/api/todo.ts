@@ -13,7 +13,9 @@ interface TodoResponse {
 }
 
 interface TodoContent {
-  content: "";
+  todo: {
+    content: string;
+  };
 }
 
 export const getTodos = () => {
@@ -40,7 +42,7 @@ export const deleteTodo = (id: string) => {
   return service.delete<{}, TodoResponse>(path, { headers });
 };
 
-export const toggle = (id: string) => {
+export const toggleTodo = (id: string) => {
   const headers = getAuthorizationHeader();
   let path = `${TODO_PATH}/${id}/toggle`;
   return service.patch<{}, TodoResponse>(path, { headers });
