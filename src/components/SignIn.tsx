@@ -1,30 +1,12 @@
-email;
-請輸入email;
-
-此欄位不可為空;
-
-密碼;
-
-請輸入密碼;
-
-登入;
-
-註冊帳號;
-
 import { useEffect } from "react";
 
 import { yupResolver } from "@hookform/resolvers/yup";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { FcGoogle } from "react-icons/fc";
-import { GrFacebook } from "react-icons/gr";
 import { useRecoilState } from "recoil";
 import * as Yup from "yup";
 
 import { BASE_URL } from "../config";
 import { userState } from "../store/user";
-
-const oauthGoogle = `${BASE_URL}/auth/google`;
-const oauthFB = `${BASE_URL}/auth/facebook`;
 
 type FormValues = {
   email: string;
@@ -53,9 +35,6 @@ const SignIn = () => {
   });
   const onSubmit: SubmitHandler<FormValues> = (data) => {
     console.log(data);
-    if (data.remember) {
-      localStorage.setItem("email", data.email);
-    }
   };
   useEffect(() => {
     setUser({});
@@ -68,45 +47,34 @@ const SignIn = () => {
   }, []);
   return (
     <div className="pt-2">
+      <h1>登入</h1>
       <form className="flex flex-col" onSubmit={handleSubmit(onSubmit)}>
-        <input className="field" {...register("email")} />
+        <label htmlFor="email">Email</label>
+        <input
+          id="email"
+          className="field"
+          {...register("email")}
+          placeholder="請輸入email"
+        />
         {errors.email?.message && (
           <span className="text-sm text-red-500">{errors.email?.message}</span>
         )}
-        <input className="field" type="password" {...register("password")} />
+        <label htmlFor="password">密碼</label>
+        <input
+          className="field"
+          type="password"
+          id="password"
+          {...register("password")}
+          placeholder="請輸入密碼"
+        />
         {errors.password?.message && (
           <span className="text-sm text-red-500">
             {errors.password?.message}
           </span>
         )}
-        <div className="flex items-center justify-end text-slate-500">
-          <label className="mr-1" htmlFor="remember">
-            記住我
-          </label>
-          <input id="remember" type="checkbox" {...register("remember")} />
-        </div>
-        <input className="mt-2 btn" value="送出" type="submit" />
+        <input className="mt-2 btn" value="登入" type="submit" />
       </form>
-      <div className="flex flex-col items-center justify-center pt-5">
-        <button className="pt-2">
-          <a
-            className="flex items-center text-gray-800 hover:text-gray-500"
-            href={oauthGoogle}
-          >
-            <FcGoogle className="mr-2 " />
-            使用Google繼續
-          </a>
-        </button>
-        <button className="pt-2">
-          <a
-            className="flex items-center text-gray-800 hover:text-gray-500"
-            href={oauthFB}
-          >
-            <GrFacebook className="mr-2 text-blue-900" />
-            使用FaceBook繼續
-          </a>
-        </button>
-      </div>
+      <button>註冊帳號</button>
     </div>
   );
 };
