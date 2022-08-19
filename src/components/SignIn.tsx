@@ -1,17 +1,15 @@
 import { useEffect } from "react";
-
+import { toast } from "react-toastify";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useRecoilState } from "recoil";
 import * as Yup from "yup";
-
-import { BASE_URL } from "../config";
+import { userSignIn } from "../utils/api/user";
 import { userState } from "../store/user";
 
 type FormValues = {
   email: string;
   password: string;
-  remember: Boolean;
 };
 const validationSchema = Yup.object().shape({
   email: Yup.string().required("信箱為必填").email("信箱格式無效"),
@@ -28,22 +26,23 @@ const SignIn = () => {
   const {
     register,
     handleSubmit,
-    reset,
     formState: { errors },
   } = useForm<FormValues>({
     resolver: yupResolver(validationSchema),
   });
-  const onSubmit: SubmitHandler<FormValues> = (data) => {
+  const onSubmit: SubmitHandler<FormValues> = async (data) => {
     console.log(data);
+    const { email, password } = data;
+    const param = {
+      email,
+      password,
+    };
+    const { message, error } = await userSignIn(param);
+    message && toast("登入成功");
+    error && toast("登入失敗");
   };
   useEffect(() => {
     setUser({});
-    const saveEmail = localStorage.getItem("email");
-    if (saveEmail) {
-      reset({
-        email: saveEmail,
-      });
-    }
   }, []);
   return (
     <div className="pt-2">
