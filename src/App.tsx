@@ -4,7 +4,8 @@ import { RecoilRoot } from "recoil";
 import Todo from "./pages/Todo";
 import Sign from "./pages/Sign";
 import Layout from "./layout/Layout";
-
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 function App() {
   const [count, setCount] = useState(0);
 
@@ -18,6 +19,7 @@ function App() {
           <Route path="/signIn" element={<Sign />} />
         </Routes>
       </HashRouter>
+      <ToastContainer />
     </RecoilRoot>
   );
 }

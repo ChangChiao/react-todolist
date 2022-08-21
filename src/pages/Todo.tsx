@@ -84,6 +84,7 @@ const Todo = () => {
         {tabList.map(({ title, status }) => (
           <li
             className={clsx({ active: tab === status })}
+            key={status}
             onClick={() => {
               setTab(status);
             }}
@@ -94,13 +95,18 @@ const Todo = () => {
       </ul>
       <div>
         {filterTodo.map((item) => {
-          <TodoItem deleteItem={deleteItem} setStatus={setStatus} {...item} />;
+          <TodoItem
+            key={item.id}
+            deleteItem={deleteItem}
+            setStatus={setStatus}
+            {...item}
+          />;
         })}
       </div>
-      <ul className="flex justify-between">
+      {/* <ul className="flex justify-between">
         <li>{{ todoLength }}個待完成項目</li>
         <li onClick={clearFinished}>清除已完成項目</li>
-      </ul>
+      </ul> */}
     </div>
   );
 };
