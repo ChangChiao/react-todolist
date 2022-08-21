@@ -26,7 +26,11 @@ const validationSchema = Yup.object().shape({
     .oneOf([Yup.ref("password"), null], "兩次輸入密碼不一致"),
 });
 
-const SignIn = () => {
+type SignUpParams = {
+  setTab: (val: number) => void;
+};
+
+const SignUp = ({ setTab }: SignUpParams) => {
   const [user, setUser] = useRecoilState(userState);
   console.log("user", user);
 
@@ -54,7 +58,7 @@ const SignIn = () => {
   }, []);
   return (
     <div className="pt-2">
-      <h2>註冊帳號</h2>
+      <h1 className="title">註冊帳號</h1>
       <form className="flex flex-col" onSubmit={handleSubmit(onSubmit)}>
         <label htmlFor="email">Email</label>
         <input
@@ -104,11 +108,13 @@ const SignIn = () => {
             {errors.confirmPwd?.message}
           </span>
         )}
-        <input className="mt-2 btn" value="註冊帳號" type="submit" />
+        <input className="mt-4 btn" value="註冊帳號" type="submit" />
+        <button className="mt-6" onClick={() => setTab(0)}>
+          登入
+        </button>
       </form>
-      <button>登入</button>
     </div>
   );
 };
 
-export default SignIn;
+export default SignUp;

@@ -1,3 +1,21 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  label {
+    @apply pt-4 pb-1 text-sm;
+  }
+}
+
+@layer components {
+  .field {
+    @apply p-2 rounded-lg w-80;
+  }
+  .btn {
+    @apply w-32 p-2 mx-auto text-center text-white bg-black rounded-md;
+  }
+  .title {
+    @apply pb-4 text-2xl font-bold;
+  }
+}

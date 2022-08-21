@@ -19,7 +19,11 @@ const validationSchema = Yup.object().shape({
     .max(16, "密碼不可超過16個字元"),
 });
 
-const SignIn = () => {
+type SingInParams = {
+  setTab: (val: number) => void;
+};
+
+const SignIn = ({ setTab }: SingInParams) => {
   const [user, setUser] = useRecoilState(userState);
   console.log("user", user);
 
@@ -45,8 +49,8 @@ const SignIn = () => {
     setUser({});
   }, []);
   return (
-    <div className="pt-2">
-      <h1>登入</h1>
+    <div>
+      <h1 className="title">最實用的線上代辦事項服務</h1>
       <form className="flex flex-col" onSubmit={handleSubmit(onSubmit)}>
         <label htmlFor="email">Email</label>
         <input
@@ -71,9 +75,11 @@ const SignIn = () => {
             {errors.password?.message}
           </span>
         )}
-        <input className="mt-2 btn" value="登入" type="submit" />
+        <input className="mt-6 btn" value="登入" type="submit" />
+        <button className="m-auto mt-4" onClick={() => setTab(1)}>
+          註冊帳號
+        </button>
       </form>
-      <button>註冊帳號</button>
     </div>
   );
 };
