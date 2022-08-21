@@ -2,9 +2,16 @@ import { useEffect, useMemo, useState } from "react";
 import clsx from "clsx";
 import TodoItem from "../components/TodoItem";
 import { getTodos, addTodo, toggleTodo, deleteTodo } from "../utils/api/todo";
-
+import { AiOutlinePlus } from "react-icons/ai";
 const Todo = () => {
-  const [todo, setTodo] = useState<Todo[]>([]);
+  const [todo, setTodo] = useState<Todo[]>([
+    { id: "1661089578600", content: "打東東", completed_at: null },
+    {
+      id: "1661089578601",
+      content: "just dance",
+      completed_at: "1661089578602",
+    },
+  ]);
   const [tab, setTab] = useState<number>(0);
   const tabList = [
     { title: "全部", status: 0 },
@@ -13,8 +20,12 @@ const Todo = () => {
   ];
 
   const getList = async () => {
-    const res = await getTodos();
-    setTodo(res.todos);
+    try {
+      const res = await getTodos();
+      setTodo(res.todos);
+    } catch (error) {
+      console.log("err", error);
+    }
   };
 
   const handleSubmit = async (event: React.SyntheticEvent<HTMLFormElement>) => {
@@ -67,46 +78,68 @@ const Todo = () => {
     return todo;
   }, [tab]);
 
+  console.log("filterTodo", filterTodo);
+
   const todoLength = useMemo(() => {
-    return todo.filter((item) => !item.completed_at)?.length;
+    return todo.filter((item) => !item.completed_at)?.length || 0;
   }, [todo]);
 
   useEffect(() => {
     getList();
   }, []);
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <input name="todo" type="text" />
-        <input type="submit" value="送出" />
+    <div className="mx-auto mt-10 w-3/5 min-w-[500px]">
+      <form
+        className="flex items-center justify-between p-2 bg-white rounded-lg shadow-lg"
+        onSubmit={handleSubmit}
+      >
+        <input className="h-8 w-[calc(100%-50px)]" name="todo" type="text" />
+        {/* <input type="submit" value="送出" /> */}
+        <button
+          className="flex items-center justify-center w-10 h-10 text-2xl text-white bg-black rounded-xl"
+          type="submit"
+        >
+          <AiOutlinePlus />
+        </button>
       </form>
-      <ul>
-        {tabList.map(({ title, status }) => (
-          <li
-            className={clsx({ active: tab === status })}
-            key={status}
-            onClick={() => {
-              setTab(status);
-            }}
-          >
-            {title}
+      <main className="py-8 mt-6 bg-white rounded-lg shadow-lg">
+        <ul className="flex justify-between pt-4">
+          {tabList.map(({ title, status }) => (
+            <li
+              className={clsx(
+                "w-[33.3%] border-b-2  pb-4 text-center",
+                tab === status
+                  ? "border-b-gray-400 text-gray-900"
+                  : "border-b-gray-200 text-gray-500"
+              )}
+              key={status}
+              onClick={() => {
+                setTab(status);
+              }}
+            >
+              {title}
+            </li>
+          ))}
+        </ul>
+        <div className="p-4">
+          {filterTodo.map((item) => (
+            <TodoItem
+              key={item.id}
+              deleteItem={deleteItem}
+              setStatus={setStatus}
+              {...item}
+            />
+          ))}
+        </div>
+        <ul className="flex justify-between px-4">
+          <li>
+            <span className="px-1">{todoLength}</span>個待完成項目
           </li>
-        ))}
-      </ul>
-      <div>
-        {filterTodo.map((item) => {
-          <TodoItem
-            key={item.id}
-            deleteItem={deleteItem}
-            setStatus={setStatus}
-            {...item}
-          />;
-        })}
-      </div>
-      {/* <ul className="flex justify-between">
-        <li>{{ todoLength }}個待完成項目</li>
-        <li onClick={clearFinished}>清除已完成項目</li>
-      </ul> */}
+          <li className="text-gray-400 " onClick={clearFinished}>
+            清除已完成項目
+          </li>
+        </ul>
+      </main>
     </div>
   );
 };

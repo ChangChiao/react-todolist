@@ -14,18 +14,27 @@ const TodoItem = ({
   deleteItem,
 }: TodoItemParam) => {
   return (
-    <div>
+    <div className="flex justify-between py-4 border-b border-gray-300 group last-of-type:border-none">
       <input
+        className="w-4 mr-3 text-black "
         type="checkbox"
         checked={!!completed_at}
         onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
           setStatus(id, e.target.checked);
         }}
       />
-      <RiDeleteBinLine onClick={() => deleteItem(id)} />
-      <span className={clsx({ "line-through": completed_at })}>
-        {{ content }}
+      <span
+        className={clsx([
+          { "text-gray-500 line-through": completed_at },
+          "flex-1 text-left",
+        ])}
+      >
+        {content}
       </span>
+      <RiDeleteBinLine
+        className="hidden text-2xl text-gray-500 cursor-pointer group-hover:block"
+        onClick={() => deleteItem(id)}
+      />
     </div>
   );
 };
