@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useRecoilState } from "recoil";
@@ -26,7 +27,7 @@ type SingInParams = {
 const SignIn = ({ setTab }: SingInParams) => {
   const [user, setUser] = useRecoilState(userState);
   console.log("user", user);
-
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -41,8 +42,17 @@ const SignIn = ({ setTab }: SingInParams) => {
       email,
       password,
     };
-    const { message, error } = await userSignIn(param);
-    message && toast("登入成功");
+    const {
+      message,
+      email: userEmail,
+      nickname,
+      error,
+    } = await userSignIn(param);
+    if (message) {
+      toast("登入成功");
+      navigate("/");
+      setUser({ email: userEmail, nickname });
+    }
     error && toast("登入失敗");
   };
   useEffect(() => {
@@ -75,7 +85,9 @@ const SignIn = ({ setTab }: SingInParams) => {
             {errors.password?.message}
           </span>
         )}
-        <input className="mt-6 btn" value="登入" type="submit" />
+        <button className="mt-6 btn" type="submit">
+          登入
+        </button>
         <button className="m-auto mt-4" onClick={() => setTab(1)}>
           註冊帳號
         </button>

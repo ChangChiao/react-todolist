@@ -10,9 +10,11 @@ interface SignInParam {
 }
 
 interface SignUpParam {
-  email: string;
-  password: string;
-  nickname: string;
+  user: {
+    email: string;
+    password: string;
+    nickname: string;
+  };
 }
 
 interface SignInResponse extends APIResponse {
@@ -27,7 +29,7 @@ interface SignUpResponse extends APIResponse {
 
 export const userCheck = () => {
   const headers = getAuthorizationHeader();
-  return service.post<{}, APIResponse>("/check", { headers });
+  return service.get<{}, APIResponse>(`${BASE_URL}/check`, { headers });
 };
 
 export const userSignIn = (param: SignInParam) => {

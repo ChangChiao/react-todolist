@@ -45,12 +45,17 @@ const SignUp = ({ setTab }: SignUpParams) => {
     console.log(data);
     const { email, nickname, password } = data;
     const param = {
-      email,
-      nickname,
-      password,
+      user: {
+        email,
+        nickname,
+        password,
+      },
     };
     const { message, error } = await userSignUp(param);
-    message && toast("註冊成功");
+    if (message) {
+      toast("註冊成功");
+      setTab(0);
+    }
     error && toast("註冊失敗");
   };
   useEffect(() => {
@@ -98,7 +103,7 @@ const SignUp = ({ setTab }: SignUpParams) => {
         <label htmlFor="confirmPwd">再次輸入密碼</label>
         <input
           className="field"
-          type="confirmPwd"
+          type="password"
           id="confirmPwd"
           {...register("confirmPwd")}
           placeholder="請再次輸入密碼"
@@ -108,7 +113,9 @@ const SignUp = ({ setTab }: SignUpParams) => {
             {errors.confirmPwd?.message}
           </span>
         )}
-        <input className="mt-4 btn" value="註冊帳號" type="submit" />
+        <button className="mt-4 btn" type="submit">
+          註冊帳號
+        </button>
         <button className="mt-6" onClick={() => setTab(0)}>
           登入
         </button>

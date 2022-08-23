@@ -1,9 +1,17 @@
 import { useEffect, useMemo, useState } from "react";
 import clsx from "clsx";
+import { useNavigate } from "react-router-dom";
 import TodoItem from "../components/TodoItem";
-import { getTodos, addTodo, toggleTodo, deleteTodo } from "../utils/api/todo";
+import {
+  getTodos,
+  addTodo,
+  toggleTodo,
+  deleteTodo,
+  userCheck,
+} from "../utils/api";
 import { AiOutlinePlus } from "react-icons/ai";
 const Todo = () => {
+  const navigate = useNavigate();
   const [todo, setTodo] = useState<Todo[]>([
     { id: "1661089578600", content: "打東東", completed_at: null },
     {
@@ -84,7 +92,18 @@ const Todo = () => {
     return todo.filter((item) => !item.completed_at)?.length || 0;
   }, [todo]);
 
+  const checkAuth = async () => {
+    try {
+      await userCheck();
+    } catch (error) {
+      navigate("/signin");
+    }
+  };
+
   useEffect(() => {
+    (async () => {
+      await checkAuth();
+    })();
     getList();
   }, []);
   return (
