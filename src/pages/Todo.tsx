@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import clsx from "clsx";
 import { useNavigate } from "react-router-dom";
 import TodoItem from "../components/TodoItem";
@@ -10,16 +10,18 @@ import {
   userCheck,
 } from "../utils/api";
 import { AiOutlinePlus } from "react-icons/ai";
+const testData = [
+  { id: "1661089578600", content: "打東東", completed_at: null },
+  {
+    id: "1661089578601",
+    content: "just dance",
+    completed_at: "1661089578602",
+  },
+];
 const Todo = () => {
   const navigate = useNavigate();
-  const [todo, setTodo] = useState<Todo[]>([
-    { id: "1661089578600", content: "打東東", completed_at: null },
-    {
-      id: "1661089578601",
-      content: "just dance",
-      completed_at: "1661089578602",
-    },
-  ]);
+  const todoInput = useRef<HTMLInputElement | null>(null);
+  const [todo, setTodo] = useState<Todo[]>([]);
   const [tab, setTab] = useState<number>(0);
   const tabList = [
     { title: "全部", status: 0 },
@@ -30,6 +32,8 @@ const Todo = () => {
   const getList = async () => {
     try {
       const res = await getTodos();
+      console.log("res--", res);
+
       setTodo(res.todos);
     } catch (error) {
       console.log("err", error);
@@ -42,6 +46,7 @@ const Todo = () => {
     const formElements = form.elements as typeof form.elements & {
       todo: { value: string };
     };
+    if (todoInput.current) todoInput.current.value = "";
     await addTodo({
       todo: {
         content: formElements.todo.value,
@@ -84,7 +89,7 @@ const Todo = () => {
     if (tab === 1) return todo.filter((item) => !item.completed_at);
     if (tab === 2) return todo.filter((item) => item.completed_at);
     return todo;
-  }, [tab]);
+  }, [tab, todo]);
 
   console.log("filterTodo", filterTodo);
 
@@ -112,7 +117,12 @@ const Todo = () => {
         className="flex items-center justify-between p-2 bg-white rounded-lg shadow-lg"
         onSubmit={handleSubmit}
       >
-        <input className="h-8 w-[calc(100%-50px)]" name="todo" type="text" />
+        <input
+          ref={todoInput}
+          className="h-8 w-[calc(100%-50px)]"
+          name="todo"
+          type="text"
+        />
         {/* <input type="submit" value="送出" /> */}
         <button
           className="flex items-center justify-center w-10 h-10 text-2xl text-white bg-black rounded-xl"
