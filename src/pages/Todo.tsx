@@ -46,12 +46,12 @@ const Todo = () => {
     const formElements = form.elements as typeof form.elements & {
       todo: { value: string };
     };
-    if (todoInput.current) todoInput.current.value = "";
     await addTodo({
       todo: {
         content: formElements.todo.value,
       },
     });
+    if (todoInput.current) todoInput.current.value = "";
     getList();
     // setTodo((prev) => {
     //   return [
