@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import clsx from "clsx";
+import { useLoadingContext } from "../hooks/useLoadingContext";
 import { useNavigate } from "react-router-dom";
 import TodoItem from "../components/TodoItem";
 import {
@@ -19,11 +20,11 @@ const testData = [
   },
 ];
 const Todo = () => {
+  const { setLoading } = useLoadingContext();
   const navigate = useNavigate();
   const todoInput = useRef<HTMLInputElement | null>(null);
   const [todo, setTodo] = useState<Todo[]>([]);
   const [tab, setTab] = useState<number>(0);
-  const [loading, setLoading] = useState<boolean>(false);
   const tabList = [
     { title: "全部", status: 0 },
     { title: "待完成", status: 1 },
