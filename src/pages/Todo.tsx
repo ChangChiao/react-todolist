@@ -166,14 +166,20 @@ const Todo = () => {
           ))}
         </ul>
         <div className="p-4">
-          {filterTodo.map((item) => (
-            <TodoItem
-              key={item.id}
-              deleteItem={deleteItem}
-              setStatus={setStatus}
-              {...item}
-            />
-          ))}
+          {filterTodo?.length > 0 ? (
+            filterTodo.map((item) => (
+              <TodoItem
+                key={item.id}
+                deleteItem={deleteItem}
+                setStatus={setStatus}
+                {...item}
+              />
+            ))
+          ) : (
+            <div className="py-4 text-center text-gray-600">
+              目前尚無代辦事項
+            </div>
+          )}
         </div>
         <ul className="flex justify-between px-4">
           <li>
