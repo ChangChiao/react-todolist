@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import clsx from "clsx";
+import { toast } from "react-toastify";
 import { useLoadingContext } from "../hooks/useLoadingContext";
 import { useNavigate } from "react-router-dom";
 import TodoItem from "../components/TodoItem";
@@ -48,11 +49,13 @@ const Todo = () => {
     const formElements = form.elements as typeof form.elements & {
       todo: { value: string };
     };
+    setLoading(true);
     await addTodo({
       todo: {
         content: formElements.todo.value,
       },
     });
+    setLoading(false);
     if (todoInput.current) todoInput.current.value = "";
     getList();
     // setTodo((prev) => {
@@ -75,6 +78,7 @@ const Todo = () => {
     updateItem(id, "completed_at", completed_at);
     // getList();
   };
+
   const deleteItem = async (id: string) => {
     // const updatedArr = todo.filter((item) => {
     //   return item.id !== id;
@@ -84,6 +88,14 @@ const Todo = () => {
     await deleteTodo(id);
     setLoading(false);
     getList();
+  };
+
+  const clearFinishedByAPI = async () => {
+    const finishedTask = todo.filter((item) => item.completed_at);
+    setLoading(true);
+    await Promise.all(finishedTask.map((todo) => deleteTodo(todo.id)));
+    await getList();
+    toast("已清除完成項目");
   };
 
   const clearFinished = () => {
@@ -185,7 +197,10 @@ const Todo = () => {
           <li>
             <span className="px-1">{todoLength}</span>個待完成項目
           </li>
-          <li className="text-gray-400 " onClick={clearFinished}>
+          <li
+            className="text-gray-400 cursor-pointer"
+            onClick={clearFinishedByAPI}
+          >
             清除已完成項目
           </li>
         </ul>
