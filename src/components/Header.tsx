@@ -17,7 +17,7 @@ const Header = () => {
       <img src={logo} alt="logo" />
       <div>
         <span>{user?.nickname}</span>的代辦
-        <button className="ml-8" onClick={signOut}>
+        <button className="ml-8 hover:text-gray-700" onClick={signOut}>
           登出
         </button>
       </div>

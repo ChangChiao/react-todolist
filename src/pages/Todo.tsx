@@ -23,6 +23,7 @@ const Todo = () => {
   const todoInput = useRef<HTMLInputElement | null>(null);
   const [todo, setTodo] = useState<Todo[]>([]);
   const [tab, setTab] = useState<number>(0);
+  const [loading, setLoading] = useState<boolean>(false);
   const tabList = [
     { title: "全部", status: 0 },
     { title: "待完成", status: 1 },
@@ -32,8 +33,6 @@ const Todo = () => {
   const getList = async () => {
     try {
       const res = await getTodos();
-      console.log("res--", res);
-
       setTodo(res.todos);
     } catch (error) {
       console.log("err", error);
@@ -65,8 +64,10 @@ const Todo = () => {
     //   return item.id === id ? { ...item, status } : item;
     // });
     // setTodo(updatedArr);
-    console.log("status"), status;
+    console.log("status", status);
+    setLoading(true);
     await toggleTodo(id);
+    setLoading(false);
     getList();
   };
   const deleteItem = async (id: string) => {
@@ -74,7 +75,9 @@ const Todo = () => {
     //   return item.id !== id;
     // });
     // setTodo(updatedArr);
+    setLoading(true);
     await deleteTodo(id);
+    setLoading(false);
     getList();
   };
 
@@ -103,6 +106,13 @@ const Todo = () => {
     } catch (error) {
       navigate("/signin");
     }
+  };
+
+  const updateItem = (id: string, key: string, value: string) => {
+    const updatedArr = todo.map((item) => {
+      return item.id === id ? { ...item, [key]: value } : item;
+    });
+    setTodo(updatedArr);
   };
 
   useEffect(() => {
