@@ -45,5 +45,5 @@ export const deleteTodo = (id: string) => {
 export const toggleTodo = (id: string) => {
   const headers = getAuthorizationHeader();
   let path = `${TODO_PATH}/${id}/toggle`;
-  return service.patch<{}, TodoResponse>(path, {}, { headers });
+  return service.patch<{}, Todo>(path, {}, { headers });
 };

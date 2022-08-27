@@ -33,7 +33,9 @@ const Todo = () => {
 
   const getList = async () => {
     try {
+      setLoading(true);
       const res = await getTodos();
+      setLoading(false);
       setTodo(res.todos);
     } catch (error) {
       console.log("err", error);
@@ -67,9 +69,11 @@ const Todo = () => {
     // setTodo(updatedArr);
     console.log("status", status);
     setLoading(true);
-    await toggleTodo(id);
+    const res = await toggleTodo(id);
+    const { completed_at } = res;
     setLoading(false);
-    getList();
+    updateItem(id, "completed_at", completed_at);
+    // getList();
   };
   const deleteItem = async (id: string) => {
     // const updatedArr = todo.filter((item) => {
@@ -109,7 +113,7 @@ const Todo = () => {
     }
   };
 
-  const updateItem = (id: string, key: string, value: string) => {
+  const updateItem = (id: string, key: string, value: string | null) => {
     const updatedArr = todo.map((item) => {
       return item.id === id ? { ...item, [key]: value } : item;
     });
@@ -147,7 +151,7 @@ const Todo = () => {
           {tabList.map(({ title, status }) => (
             <li
               className={clsx(
-                "w-[33.3%] border-b-2  pb-4 text-center",
+                "w-[33.3%] cursor-pointer border-b-2  pb-4 text-center",
                 tab === status
                   ? "border-b-gray-400 text-gray-900"
                   : "border-b-gray-200 text-gray-500"
