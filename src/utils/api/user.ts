@@ -52,7 +52,7 @@ export const userSignUp = (param: SignUpParam) => {
 
 export const userSignOut = () => {
   const headers = getAuthorizationHeader();
-  return service.delete<{}, APIResponse>(USER_PATH, {
+  return service.delete<{}, APIResponse>(`${USER_PATH}/sign_out`, {
     headers,
   });
 };

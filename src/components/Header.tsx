@@ -3,11 +3,13 @@ import { userState } from "../store/user";
 import { useNavigate } from "react-router-dom";
 import logo from "../assets/images/logo_lg.png";
 import { userSignOut } from "../utils/api/user";
+import { toast } from "react-toastify";
 const Header = () => {
   const navigate = useNavigate();
   const [user, setUser] = useRecoilState(userState);
   const signOut = async () => {
-    await userSignOut();
+    const res = await userSignOut();
+    toast(res.message);
     localStorage.removeItem("token");
     setUser({});
     navigate("/signIn");
