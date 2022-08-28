@@ -32,7 +32,7 @@ const TodoItem = ({
         {content}
       </span>
       <RiDeleteBinLine
-        className="hidden text-2xl text-gray-500 cursor-pointer group-hover:block"
+        className="block text-2xl text-gray-500 cursor-pointer group-hover:block md:hidden"
         onClick={() => deleteItem(id)}
       />
     </div>

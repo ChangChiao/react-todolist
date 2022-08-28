@@ -70,7 +70,7 @@ const SignIn = ({ setTab }: SingInParams) => {
           placeholder="請輸入email"
         />
         {errors.email?.message && (
-          <span className="text-sm text-red-500">{errors.email?.message}</span>
+          <span className="error">{errors.email?.message}</span>
         )}
         <label htmlFor="password">密碼</label>
         <input
@@ -81,9 +81,7 @@ const SignIn = ({ setTab }: SingInParams) => {
           placeholder="請輸入密碼"
         />
         {errors.password?.message && (
-          <span className="text-sm text-red-500">
-            {errors.password?.message}
-          </span>
+          <span className="error">{errors.password?.message}</span>
         )}
         <button className="mt-6 btn" type="submit">
           登入

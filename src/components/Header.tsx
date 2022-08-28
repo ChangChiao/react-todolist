@@ -14,9 +14,9 @@ const Header = () => {
   };
   return (
     <header className="flex items-center justify-between h-20 px-8">
-      <img src={logo} alt="logo" />
+      <img className="w-3/4 md:w-auto" src={logo} alt="logo" />
       <div>
-        <span>{user?.nickname}</span>的代辦
+        <span className="hidden md:inline">{user?.nickname}的代辦</span>
         <button className="ml-8 hover:text-gray-700" onClick={signOut}>
           登出
         </button>

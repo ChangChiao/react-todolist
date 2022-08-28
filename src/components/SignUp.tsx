@@ -73,7 +73,7 @@ const SignUp = ({ setTab }: SignUpParams) => {
           placeholder="請輸入email"
         />
         {errors.email?.message && (
-          <span className="text-sm text-red-500">{errors.email?.message}</span>
+          <span className="error">{errors.email?.message}</span>
         )}
         <label htmlFor="nickname">暱稱</label>
         <input
@@ -83,9 +83,7 @@ const SignUp = ({ setTab }: SignUpParams) => {
           placeholder="請輸入暱稱"
         />
         {errors.nickname?.message && (
-          <span className="text-sm text-red-500">
-            {errors.nickname?.message}
-          </span>
+          <span className="error">{errors.nickname?.message}</span>
         )}
         <label htmlFor="password">密碼</label>
         <input
@@ -96,9 +94,7 @@ const SignUp = ({ setTab }: SignUpParams) => {
           placeholder="請輸入密碼"
         />
         {errors.password?.message && (
-          <span className="text-sm text-red-500">
-            {errors.password?.message}
-          </span>
+          <span className="error">{errors.password?.message}</span>
         )}
         <label htmlFor="confirmPwd">再次輸入密碼</label>
         <input
@@ -109,9 +105,7 @@ const SignUp = ({ setTab }: SignUpParams) => {
           placeholder="請再次輸入密碼"
         />
         {errors.confirmPwd?.message && (
-          <span className="text-sm text-red-500">
-            {errors.confirmPwd?.message}
-          </span>
+          <span className="error">{errors.confirmPwd?.message}</span>
         )}
         <button className="mt-4 btn" type="submit">
           註冊帳號

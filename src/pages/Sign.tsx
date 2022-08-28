@@ -7,11 +7,12 @@ const Sign = () => {
   const [tab, setTab] = useState<number>(0);
   return (
     <div className="flex items-center justify-center min-h-screen bg-primary">
-      <div className="flex flex-col items-center justify-center pr-40 text-center">
+      <div className="flex-col items-center justify-center hidden pr-40 text-center md:flex">
         <img className="mb-8 max-w-[300px]" src={logo} alt="" />
         <img className="max-w-[400px]" src={pattern} />
       </div>
-      <div className="flex items-center justify-center">
+      <div className="flex flex-col items-center justify-center md:flex-row">
+        <img className="block mb-6 md:hidden " src={logo} alt="" />
         {tab === 0 ? <SignIn setTab={setTab} /> : <SignUp setTab={setTab} />}
       </div>
     </div>

@@ -139,13 +139,14 @@ const Todo = () => {
     getList();
   }, []);
   return (
-    <div className="mx-auto mt-10 w-3/5 min-w-[500px]">
+    <div className="mx-auto mt-10 w-[90%] md:w-3/5 md:min-w-[500px]">
       <form
         className="flex items-center justify-between p-2 bg-white rounded-lg shadow-lg"
         onSubmit={handleSubmit}
       >
         <input
           ref={todoInput}
+          placeholder="新增代辦事項"
           className="h-8 w-[calc(100%-50px)]"
           name="todo"
           type="text"
