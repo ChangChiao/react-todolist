@@ -14,10 +14,9 @@ type FormValues = {
 };
 const validationSchema = Yup.object().shape({
   email: Yup.string().required("信箱為必填").email("信箱格式無效"),
-  password: Yup.string()
-    .required("密碼為必填")
-    .min(8, "密碼至少為8個字元")
-    .max(16, "密碼不可超過16個字元"),
+  password: Yup.string().required("密碼為必填"),
+  // .min(8, "密碼至少為8個字元")
+  // .max(16, "密碼不可超過16個字元"),
 });
 
 type SingInParams = {

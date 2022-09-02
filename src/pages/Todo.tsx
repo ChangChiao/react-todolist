@@ -49,6 +49,10 @@ const Todo = () => {
     const formElements = form.elements as typeof form.elements & {
       todo: { value: string };
     };
+    if (formElements.todo.value === "") {
+      toast.error("請輸入內容！");
+      return;
+    }
     setLoading(true);
     await addTodo({
       todo: {

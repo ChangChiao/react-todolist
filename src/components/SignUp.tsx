@@ -17,10 +17,9 @@ type FormValues = {
 const validationSchema = Yup.object().shape({
   email: Yup.string().required("信箱為必填").email("信箱格式無效"),
   nickname: Yup.string().required("暱稱為必填").max(10, "暱稱不可超過10個字元"),
-  password: Yup.string()
-    .required("密碼為必填")
-    .min(8, "密碼至少為8個字元")
-    .max(16, "密碼不可超過16個字元"),
+  password: Yup.string().required("密碼為必填"),
+  // .min(8, "密碼至少為8個字元")
+  // .max(16, "密碼不可超過16個字元"),
   confirmPwd: Yup.string()
     .required("確認密碼為必填")
     .oneOf([Yup.ref("password"), null], "兩次輸入密碼不一致"),
